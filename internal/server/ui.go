@@ -1,48 +1,30 @@
 package server
-
 import "net/http"
-
-func (s *Server) dashboard(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write([]byte(dashHTML))
-}
-
-const dashHTML = `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Scaffold</title>
-<style>
-:root{--bg:#1a1410;--bg2:#241e18;--bg3:#2e261e;--rust:#c45d2c;--rl:#e8753a;--leather:#a0845c;--cream:#f0e6d3;--cd:#bfb5a3;--cm:#7a7060;--gold:#d4a843;--green:#4a9e5c;--red:#c44040;--mono:'JetBrains Mono',monospace;--serif:'Libre Baskerville',Georgia,serif}
-*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--cream);font-family:var(--mono);font-size:13px}
-a{color:var(--rl);text-decoration:none}a:hover{color:var(--gold)}
-.hdr{padding:.7rem 1.2rem;border-bottom:1px solid var(--bg3);display:flex;justify-content:space-between;align-items:center}
-.hdr h1{font-family:var(--serif);font-size:1rem}.hdr h1 span{color:var(--rl)}
-.stats{font-size:.7rem;color:var(--leather)}.stats b{color:var(--cream);font-weight:600}
-.main{max-width:700px;margin:0 auto;padding:1.5rem}
-.card{background:var(--bg2);border:1px solid var(--bg3);padding:.8rem 1rem;margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center}
-.card-title{font-size:.8rem;font-weight:600}.card-sub{font-size:.65rem;color:var(--cd)}
-.btn{font-family:var(--mono);font-size:.7rem;padding:.3rem .6rem;border:1px solid;cursor:pointer;background:transparent}
-.btn-p{border-color:var(--rust);color:var(--rl)}.btn-p:hover{background:var(--rust);color:var(--cream)}
-.btn-d{border-color:var(--bg3);color:var(--cm)}.btn-d:hover{border-color:var(--red);color:var(--red)}
-input{background:var(--bg);border:1px solid var(--bg3);color:var(--cream);padding:.4rem .6rem;font-family:var(--mono);font-size:.8rem;width:100%;outline:none;margin-bottom:.5rem}
-input:focus{border-color:var(--rust)}
-.empty{text-align:center;padding:2rem;color:var(--cm);font-style:italic;font-family:var(--serif)}
-</style>
+func(s *Server)dashboard(w http.ResponseWriter,r *http.Request){w.Header().Set("Content-Type","text/html; charset=utf-8");w.Write([]byte(dashHTML))}
+const dashHTML=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Scaffold</title>
+<style>:root{--bg:#1a1410;--bg2:#241e18;--bg3:#2e261e;--rust:#c45d2c;--rl:#e8753a;--leather:#a0845c;--cream:#f0e6d3;--cd:#bfb5a3;--cm:#7a7060;--gold:#d4a843;--green:#4a9e5c;--mono:'JetBrains Mono',Consolas,monospace;--serif:'Libre Baskerville',Georgia,serif}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--cream);font-family:var(--mono);font-size:13px;line-height:1.6}.hdr{padding:.6rem 1.2rem;border-bottom:1px solid var(--bg3);display:flex;justify-content:space-between;align-items:center}.hdr h1{font-family:var(--serif);font-size:1rem}.hdr h1 span{color:var(--rl)}.main{max-width:700px;margin:0 auto;padding:1rem}.btn{font-family:var(--mono);font-size:.68rem;padding:.3rem .6rem;border:1px solid;cursor:pointer;background:transparent}.btn-p{border-color:var(--rust);color:var(--rl)}.btn-p:hover{background:var(--rust);color:var(--cream)}.card{background:var(--bg2);border:1px solid var(--bg3);padding:.7rem;margin-bottom:.4rem;cursor:pointer;transition:.1s}.card:hover{background:var(--bg3)}.card h3{font-size:.8rem;margin-bottom:.2rem}.card-meta{font-size:.65rem;color:var(--cm);display:flex;gap:.7rem}.empty{text-align:center;padding:2rem;color:var(--cm);font-style:italic;font-family:var(--serif)}.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:100}.modal{background:var(--bg2);border:1px solid var(--bg3);padding:1.5rem;width:95%;max-width:600px;max-height:90vh;overflow-y:auto}.modal h2{font-family:var(--serif);font-size:.9rem;margin-bottom:1rem}label.fl{display:block;font-size:.65rem;color:var(--leather);text-transform:uppercase;letter-spacing:1px;margin-bottom:.2rem;margin-top:.5rem}input[type=text],textarea{background:var(--bg);border:1px solid var(--bg3);color:var(--cream);padding:.35rem .5rem;font-family:var(--mono);font-size:.78rem;width:100%;outline:none}textarea{resize:vertical;min-height:80px}pre{background:var(--bg);border:1px solid var(--bg3);padding:.5rem;font-size:.7rem;overflow-x:auto;margin:.3rem 0;color:var(--cd)}</style>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-</head><body>
-<div class="hdr"><h1><span>Scaffold</span></h1><div class="stats">Total: <b id="ct">-</b></div></div>
-<div class="main">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-<span style="font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--rust)">All templates</span>
-<button class="btn btn-p" onclick="showCreate()">+ New</button>
-</div>
-<div id="list"></div>
-</div>
+</head><body><div class="hdr"><h1><span>Scaffold</span></h1><button class="btn btn-p" onclick="showNew()">+ Template</button></div>
+<div class="main"><div id="list"></div></div><div id="modal"></div>
 <script>
-async function load(){const r=await fetch('/api/templates');const d=await r.json();document.getElementById('ct').textContent=d.count;
-const el=document.getElementById('list');if(!d.templates.length){el.innerHTML='<div class="empty">No templates yet.</div>';return}
-el.innerHTML=d.templates.map(e=>'<div class="card"><div><div class="card-title">'+esc(e.name||e.title||e.id)+'</div><div class="card-sub">'+esc(e.created_at)+'</div></div><button class="btn btn-d" onclick="del(\''+e.id+'\')">Delete</button></div>').join('')}
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')}
-function showCreate(){const n=prompt('Name:');if(!n)return;fetch('/api/templates',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n})}).then(load)}
-async function del(id){if(!confirm('Delete?'))return;await fetch('/api/templates/'+id,{method:'DELETE'});load()}
-load();setInterval(load,30000)
-</script></body></html>` + "`"
+async function api(u,o){return(await fetch(u,o)).json()}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+async function load(){const d=await api('/api/templates');const ts=d.templates||[];
+document.getElementById('list').innerHTML=ts.length?ts.map(t=>'<div class="card" onclick="show(\''+t.id+'\')"><h3>'+esc(t.name)+'</h3><div class="card-meta">'+(t.language?'<span>'+esc(t.language)+'</span>':'')+'<span>'+t.files.length+' files</span><span>'+t.use_count+' uses</span>'+(t.variables&&t.variables.length?'<span>vars: '+t.variables.join(', ')+'</span>':'')+'</div>'+(t.description?'<div style="font-size:.72rem;color:var(--cd);margin-top:.2rem">'+esc(t.description)+'</div>':'')+'</div>').join(''):'<div class="empty">No templates yet.</div>'}
+async function show(id){const t=await api('/api/templates/'+id);
+const files=t.files.map(f=>'<div style="font-size:.7rem;color:var(--leather);margin-top:.5rem">'+esc(f.path)+'</div><pre>'+esc(f.content)+'</pre>').join('');
+document.getElementById('modal').innerHTML='<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><h2>'+esc(t.name)+'</h2>'+(t.variables&&t.variables.length?'<div style="font-size:.7rem;color:var(--leather)">Variables: '+t.variables.map(v=>'<span style="color:var(--gold)">{{'+v+'}}</span>').join(', ')+'</div>':'')+files+
+'<div style="display:flex;gap:.3rem;margin-top:1rem"><button class="btn btn-p" onclick="gen(\''+id+'\')">Generate</button><button class="btn" style="border-color:var(--bg3);color:var(--cm)" onclick="if(confirm(\'Delete?\'))del(\''+id+'\')">Del</button><button class="btn" style="border-color:var(--bg3);color:var(--cm)" onclick="closeModal()">Close</button></div></div></div>'}
+async function gen(id){const t=await api('/api/templates/'+id);const vars={};(t.variables||[]).forEach(v=>{const val=prompt('Value for {{'+v+'}}:');if(val!==null)vars[v]=val});
+const r=await api('/api/templates/'+id+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({variables:vars})});
+const output=r.files.map(f=>'<div style="font-size:.7rem;color:var(--green);margin-top:.5rem">'+esc(f.path)+'</div><pre>'+esc(f.content)+'</pre>').join('');
+document.getElementById('modal').innerHTML='<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><h2>Generated Output</h2>'+output+'<button class="btn" style="border-color:var(--bg3);color:var(--cm);margin-top:1rem" onclick="closeModal()">Close</button></div></div>'}
+function showNew(){document.getElementById('modal').innerHTML='<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><h2>New Template</h2><label class="fl">Name</label><input type="text" id="n-name"><label class="fl">Language</label><input type="text" id="n-lang" placeholder="go, python, node"><label class="fl">Description</label><input type="text" id="n-desc"><label class="fl">Variables (comma-separated)</label><input type="text" id="n-vars" placeholder="project_name, author"><label class="fl">Files (JSON)</label><textarea id="n-files" rows="6" placeholder=\'[{"path":"main.go","content":"package main"}]\'></textarea><div style="display:flex;gap:.5rem;margin-top:1rem"><button class="btn btn-p" onclick="save()">Create</button><button class="btn" style="border-color:var(--bg3);color:var(--cm)" onclick="closeModal()">Cancel</button></div></div></div>'}
+async function save(){let files=[];try{files=JSON.parse(document.getElementById('n-files').value||'[]')}catch(e){alert('Invalid JSON');return}
+const vars=(document.getElementById('n-vars').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+const b={name:document.getElementById('n-name').value,language:document.getElementById('n-lang').value,description:document.getElementById('n-desc').value,variables:vars,files};
+if(!b.name){alert('Name required');return};await api('/api/templates',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});closeModal();load()}
+async function del(id){await api('/api/templates/'+id,{method:'DELETE'});closeModal();load()}
+function closeModal(){document.getElementById('modal').innerHTML=''}
+load()
+</script></body></html>`
